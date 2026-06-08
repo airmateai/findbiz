@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FindBiz — La plataforma de referencia para traspasos de negocios en Tenerife. Compra o vende tu negocio con total seguridad." />
+  <title>FindBiz — Traspasos de Negocios en Tenerife</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a class="logo" href="#" onclick="showView('home')">Find<span>Biz</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#" onclick="showView('listings')">Negocios</a>
+      <a href="#" onclick="showView('calculator')">Calculadora ROI</a>
+      <a href="#" onclick="showView('blog')">Guías</a>
+    </div>
+    <div class="nav-actions" id="navActions"></div>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#" onclick="showView('listings');closeMobileMenu()">Negocios</a>
+    <a href="#" onclick="showView('calculator');closeMobileMenu()">Calculadora ROI</a>
+    <a href="#" onclick="showView('blog');closeMobileMenu()">Guías</a>
+    <div class="mobile-menu-auth" id="mobileMenuAuth"></div>
+  </div>
+</nav>
+
+<!-- ===== HOME ===== -->
+<div id="view-home">
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-label">Tenerife · Plataforma de traspasos</div>
+      <h1>El lugar donde los negocios<br />encuentran nuevo propietario</h1>
+      <p class="hero-sub">Conectamos a vendedores y compradores de negocios en toda Tenerife. Transparencia, seguridad y asesoramiento profesional en cada operación.</p>
+      <div class="search-bar">
+        <div class="search-field">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="heroSearch" placeholder="Tipo de negocio, zona..." />
+        </div>
+        <select id="heroCategory" class="search-select">
+          <option value="">Todas las categorías</option>
+          <option>Hostelería</option>
+          <option>Comercio</option>
+          <option>Belleza y Estética</option>
+          <option>Salud</option>
+          <option>Deportes</option>
+          <option>Formación</option>
+          <option>Servicios</option>
+        </select>
+        <button class="btn-primary" onclick="doSearch()">Buscar negocios</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">248</div><div class="stat-label">Negocios activos</div></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><div class="stat-num">1.200</div><div class="stat-label">Compradores registrados</div></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><div class="stat-num">94%</div><div class="stat-label">Operaciones cerradas</div></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><div class="stat-num">+4M€</div><div class="stat-label">En traspasos gestionados</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Explorar por categoría</h2>
+          <p>Encuentra el negocio que buscas entre más de 20 tipos de actividad</p>
+        </div>
+      </div>
+      <div class="categories-grid">
+        <button class="cat-card" onclick="filterCategory('Hostelería')">
+          <div class="cat-icon-wrap"><i data-lucide="utensils"></i></div>
+          <div class="cat-name">Hostelería</div>
+          <div class="cat-count">87 negocios</div>
+        </button>
+        <button class="cat-card" onclick="filterCategory('Comercio')">
+          <div class="cat-icon-wrap"><i data-lucide="shopping-bag"></i></div>
+          <div class="cat-name">Comercio</div>
+          <div class="cat-count">64 negocios</div>
+        </button>
+        <button class="cat-card" onclick="filterCategory('Belleza y Estética')">
+          <div class="cat-icon-wrap"><i data-lucide="scissors"></i></div>
+          <div class="cat-name">Belleza y Estética</div>
+          <div class="cat-count">41 negocios</div>
+        </button>
+        <button class="cat-card" onclick="filterCategory('Salud')">
+          <div class="cat-icon-wrap"><i data-lucide="heart-pulse"></i></div>
+          <div class="cat-name">Salud</div>
+          <div class="cat-count">28 negocios</div>
+        </button>
+        <button class="cat-card" onclick="filterCategory('Deportes')">
+          <div class="cat-icon-wrap"><i data-lucide="dumbbell"></i></div>
+          <div class="cat-name">Deportes</div>
+          <div class="cat-count">19 negocios</div>
+        </button>
+        <button class="cat-card" onclick="filterCategory('Formación')">
+          <div class="cat-icon-wrap"><i data-lucide="book-open"></i></div>
+          <div class="cat-name">Formación</div>
+          <div class="cat-count">15 negocios</div>
+        </button>
+        <button class="cat-card" onclick="filterCategory('Servicios')">
+          <div class="cat-icon-wrap"><i data-lucide="wrench"></i></div>
+          <div class="cat-name">Servicios</div>
+          <div class="cat-count">33 negocios</div>
+        </button>
+        <button class="cat-card cat-card-all" onclick="filterCategory('')">
+          <div class="cat-icon-wrap"><i data-lucide="grid-3x3"></i></div>
+          <div class="cat-name">Ver todos</div>
+          <div class="cat-count">248 negocios</div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Negocios destacados</h2>
+          <p>Oportunidades seleccionadas y verificadas por el equipo de FindBiz</p>
+        </div>
+        <a href="#" onclick="showView('listings')" class="link-arrow">Ver todos <i data-lucide="arrow-right"></i></a>
+      </div>
+      <div class="listings-grid" id="featuredListings"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Cómo funciona FindBiz</h2>
+          <p>El proceso más sencillo para comprar o vender un negocio en Tenerife</p>
+        </div>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3>Publica tu negocio</h3>
+          <p>Sube fotos, describe tu negocio, establece el precio y la información de contacto en menos de 10 minutos.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3>Amplía tu visibilidad</h3>
+          <p>Con un clic comparte tu anuncio en WhatsApp, Facebook, Instagram y otras redes para máxima exposición.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3>Cierra la operación</h3>
+          <p>Recibe contactos cualificados, negocia con seguridad y formaliza el traspaso con todas las garantías legales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-section">
+    <div class="container trust-inner">
+      <div class="trust-item"><i data-lucide="shield-check"></i><span>Anuncios verificados</span></div>
+      <div class="trust-item"><i data-lucide="lock"></i><span>Datos protegidos</span></div>
+      <div class="trust-item"><i data-lucide="headphones"></i><span>Soporte especializado</span></div>
+      <div class="trust-item"><i data-lucide="trending-up"></i><span>94% de éxito</span></div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container cta-inner">
+      <div class="cta-text">
+        <h2>Vende tu negocio con las mejores garantías</h2>
+        <p>Miles de compradores activos en Tenerife buscan su próxima oportunidad. Publica gratis hoy.</p>
+      </div>
+      <div class="cta-actions">
+        <button class="btn-white btn-lg" onclick="showView('create')">Publicar negocio</button>
+        <button class="btn-outline-white btn-lg" onclick="showView('listings')">Explorar negocios</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">Find<span>Biz</span></div>
+        <p>La plataforma de referencia para traspasos de negocios en Tenerife</p>
+      </div>
+      <div class="footer-links-col">
+        <div class="footer-col-title">Plataforma</div>
+        <a href="#" onclick="showView('listings')">Ver negocios</a>
+        <a href="#" onclick="showView('create')">Publicar negocio</a>
+        <a href="#" onclick="showView('calculator')">Calculadora ROI</a>
+        <a href="#" onclick="showView('blog')">Guías</a>
+      </div>
+      <div class="footer-links-col">
+        <div class="footer-col-title">Legal</div>
+        <a href="#">Aviso legal</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Cookies</a>
+        <a href="#">Condiciones de uso</a>
+      </div>
+      <div class="footer-links-col">
+        <div class="footer-col-title">Contacto</div>
+        <a href="#">hola@findbiz.es</a>
+        <a href="#">+34 900 000 000</a>
+        <a href="#">Santa Cruz de Tenerife</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <span>© 2025 FindBiz. Todos los derechos reservados.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== LISTINGS ===== -->
+<div id="view-listings" style="display:none">
+  <div class="listings-topbar">
+    <div class="listings-topbar-inner">
+      <div class="topbar-filters">
+        <select id="filterCategory" onchange="applyFilters()">
+          <option value="">Todas las categorías</option>
+          <option>Hostelería</option><option>Comercio</option><option>Belleza y Estética</option>
+          <option>Salud</option><option>Deportes</option><option>Formación</option><option>Servicios</option>
+        </select>
+        <select id="filterZone" onchange="applyFilters()">
+          <option value="">Toda Tenerife</option>
+          <option>Santa Cruz</option><option>La Laguna</option><option>Puerto de la Cruz</option>
+          <option>Los Cristianos</option><option>Playa de las Américas</option><option>Adeje</option>
+          <option>Arona</option><option>Güímar</option><option>Candelaria</option>
+        </select>
+        <div class="price-filter-wrap">
+          <span id="priceLabel" class="price-filter-label">Hasta 500.000 €</span>
+          <input type="range" id="filterPrice" min="0" max="500000" step="5000" value="500000" oninput="updatePriceLabel();applyFilters()" />
+        </div>
+        <select id="sortBy" onchange="applyFilters()">
+          <option value="recent">Más recientes</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+        </select>
+        <button class="btn-text" onclick="resetFilters()">Limpiar filtros</button>
+      </div>
+      <div class="topbar-right">
+        <span id="listingsCount" class="listings-count"></span>
+        <button class="btn-map-toggle" id="mapToggleBtn" onclick="toggleMap()">
+          <i data-lucide="map"></i> Mapa
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="map-layout" id="mapLayout">
+    <div class="map-listings-panel">
+      <div class="listings-scroll">
+        <div class="listings-grid-map" id="allListings"></div>
+      </div>
+    </div>
+    <div class="map-panel" id="mapPanel">
+      <div id="map"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CREATE ===== -->
+<div id="view-create" style="display:none">
+  <div class="page-header">
+    <div class="container">
+      <h1>Publicar negocio</h1>
+      <p>Tu anuncio estará visible en minutos. La publicación básica es gratuita.</p>
+    </div>
+  </div>
+  <div class="container create-layout">
+    <div class="create-form-wrap">
+      <form id="createForm" onsubmit="submitListing(event)">
+        <div class="form-section">
+          <h3>Información del negocio</h3>
+          <div class="form-group">
+            <label>Título del anuncio *</label>
+            <input type="text" id="fTitle" placeholder="Ej: Bar-cafetería en pleno centro de Santa Cruz" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Categoría *</label>
+              <select id="fCategory" required>
+                <option value="">Seleccionar categoría</option>
+                <option>Hostelería</option><option>Comercio</option><option>Belleza y Estética</option>
+                <option>Salud</option><option>Deportes</option><option>Formación</option>
+                <option>Servicios</option><option>Otros</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Zona *</label>
+              <select id="fZone" required>
+                <option value="">Seleccionar zona</option>
+                <option>Santa Cruz</option><option>La Laguna</option><option>Puerto de la Cruz</option>
+                <option>Los Cristianos</option><option>Playa de las Américas</option><option>Adeje</option>
+                <option>Arona</option><option>Güímar</option><option>Candelaria</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Descripción *</label>
+            <textarea id="fDesc" rows="6" placeholder="Describe el negocio: antigüedad, tipo de clientela, motivo del traspaso, qué incluye la operación..." required></textarea>
+          </div>
+        </div>
+        <div class="form-section">
+          <h3>Precio y datos económicos</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Precio de traspaso (€) *</label>
+              <input type="number" id="fPrice" placeholder="35.000" required />
+            </div>
+            <div class="form-group">
+              <label>Superficie (m²)</label>
+              <input type="number" id="fMetros" placeholder="80" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Alquiler mensual (€)</label>
+              <input type="number" id="fRent" placeholder="1.200" />
+            </div>
+            <div class="form-group">
+              <label>Facturación anual (€)</label>
+              <input type="number" id="fRevenue" placeholder="180.000" />
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <h3>Fotografías</h3>
+          <div class="upload-area" onclick="document.getElementById('fPhotos').click()">
+            <i data-lucide="image-plus" style="width:40px;height:40px;color:var(--gray);margin-bottom:12px"></i>
+            <p>Haz clic para subir fotografías del negocio</p>
+            <span>JPG o PNG · Máximo 10 MB por imagen</span>
+            <input type="file" id="fPhotos" multiple accept="image/*" style="display:none" onchange="previewPhotos(event)" />
+          </div>
+          <div class="photos-preview" id="photosPreview"></div>
+        </div>
+        <div class="form-section">
+          <h3>Datos de contacto</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombre completo *</label>
+              <input type="text" id="fName" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <label>Teléfono *</label>
+              <input type="tel" id="fPhone" placeholder="600 000 000" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico</label>
+            <input type="email" id="fEmail" placeholder="correo@ejemplo.com" />
+          </div>
+        </div>
+        <button type="submit" class="btn-primary btn-lg" style="width:100%">Publicar anuncio gratuitamente</button>
+      </form>
+    </div>
+    <aside class="create-sidebar">
+      <div class="sidebar-card">
+        <h4>Tu anuncio incluye</h4>
+        <ul class="check-list">
+          <li>Visibilidad en FindBiz durante 30 días</li>
+          <li>Botones de compartir en redes sociales</li>
+          <li>Pin en el mapa interactivo</li>
+          <li>Recepción directa de contactos</li>
+          <li>Acceso al panel de estadísticas</li>
+        </ul>
+      </div>
+      <div class="sidebar-card sidebar-card-premium">
+        <div class="premium-label">Destacado</div>
+        <h4>Multiplica tu visibilidad</h4>
+        <p>Aparece en primer lugar en los resultados y en el mapa. Recibe hasta 5 veces más contactos.</p>
+        <div class="premium-price">29 € <span>/ mes</span></div>
+        <button class="btn-primary" style="width:100%;margin-top:12px" onclick="openFeaturedModal(0)">Destacar mi anuncio</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ===== DETAIL ===== -->
+<div id="view-detail" style="display:none">
+  <div class="container detail-layout">
+    <div class="detail-main">
+      <button class="btn-back" onclick="showView('listings')">
+        <i data-lucide="arrow-left"></i> Volver a resultados
+      </button>
+      <div class="detail-gallery" id="detailGallery"></div>
+      <div id="detailInfo"></div>
+      <div id="detailRatings"></div>
+    </div>
+    <aside class="detail-sidebar">
+      <div id="detailContact"></div>
+      <div class="share-card">
+        <h4>Compartir este anuncio</h4>
+        <p>Ayuda a encontrar comprador compartiendo el anuncio</p>
+        <div class="share-buttons" id="shareButtons"></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="view-dashboard" style="display:none">
+  <div class="page-header"><div class="container"><h1>Mi panel</h1></div></div>
+  <div class="container" style="padding-bottom:80px"><div id="dashboardContent"></div></div>
+</div>
+
+<!-- ===== FAVORITES ===== -->
+<div id="view-favorites" style="display:none">
+  <div class="page-header"><div class="container"><h1>Guardados</h1></div></div>
+  <div class="container" style="padding:32px 24px 80px"><div id="favoritesContent"></div></div>
+</div>
+
+<!-- ===== ALERTS ===== -->
+<div id="view-alerts" style="display:none">
+  <div class="page-header"><div class="container"><h1>Alertas de búsqueda</h1><p>Te avisamos cuando aparezca un negocio que encaje con tus criterios</p></div></div>
+  <div class="container" style="padding:32px 24px 80px;max-width:820px"><div id="alertsContent"></div></div>
+</div>
+
+<!-- ===== ADMIN ===== -->
+<div id="view-admin" style="display:none">
+  <div class="page-header page-header-dark"><div class="container"><h1>Panel de administración</h1><p>FindBiz Admin</p></div></div>
+  <div class="container" style="padding-bottom:80px"><div id="adminContent"></div></div>
+</div>
+
+<!-- ===== CALCULATOR ===== -->
+<div id="view-calculator" style="display:none">
+  <div class="page-header"><div class="container"><h1>Calculadora de rentabilidad</h1><p>Analiza si un traspaso es una buena inversión antes de decidir</p></div></div>
+  <div class="container" style="padding:40px 24px 80px;max-width:960px">
+    <div class="calc-layout">
+      <div class="calc-form-card">
+        <h3>Datos del negocio</h3>
+        <div class="form-group"><label>Precio de traspaso (€)</label><input type="number" id="calcPrice" placeholder="45.000" oninput="calculateROI()" /></div>
+        <div class="form-group"><label>Facturación anual (€)</label><input type="number" id="calcRevenue" placeholder="180.000" oninput="calculateROI()" /></div>
+        <div class="form-group"><label>Alquiler mensual (€)</label><input type="number" id="calcRent" placeholder="1.200" oninput="calculateROI()" /></div>
+        <div class="form-group">
+          <label>Margen del sector</label>
+          <select id="calcMargin" onchange="calculateROI()">
+            <option value="8">Bar / Cafetería — 8%</option>
+            <option value="12">Restaurante — 12%</option>
+            <option value="15" selected>Hostelería media — 15%</option>
+            <option value="20">Peluquería / Estética — 20%</option>
+            <option value="25">Comercio — 25%</option>
+            <option value="35">Farmacia — 35%</option>
+            <option value="40">Academia — 40%</option>
+          </select>
+        </div>
+      </div>
+      <div id="calcResult" class="calc-result-wrap">
+        <div class="calc-placeholder">
+          <i data-lucide="bar-chart-2" style="width:48px;height:48px;color:var(--border);margin-bottom:16px"></i>
+          <p>Introduce los datos del negocio para ver el análisis de rentabilidad</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BLOG ===== -->
+<div id="view-blog" style="display:none">
+  <div class="page-header"><div class="container"><h1>Guías y recursos</h1><p>Todo lo que necesitas saber sobre la compraventa de negocios</p></div></div>
+  <div class="container" style="padding:40px 24px 80px">
+    <div class="blog-grid">
+      <article class="blog-card" onclick="showBlogPost(1)">
+        <div class="blog-card-img blog-img-1"></div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Valoración</span>
+          <h3>Cómo valorar un negocio antes de comprarlo</h3>
+          <p>Los 5 métodos más usados por expertos para calcular el precio real de un traspaso.</p>
+          <div class="blog-meta-row"><span>15 mayo 2025</span><span>8 min lectura</span></div>
+        </div>
+      </article>
+      <article class="blog-card" onclick="showBlogPost(2)">
+        <div class="blog-card-img blog-img-2"></div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Legal</span>
+          <h3>El contrato de traspaso: qué debe incluir sí o sí</h3>
+          <p>Evita problemas legales conociendo las cláusulas imprescindibles en cualquier operación.</p>
+          <div class="blog-meta-row"><span>2 mayo 2025</span><span>6 min lectura</span></div>
+        </div>
+      </article>
+      <article class="blog-card" onclick="showBlogPost(3)">
+        <div class="blog-card-img blog-img-3"></div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Tenerife</span>
+          <h3>Las mejores zonas de Tenerife para abrir negocio en 2025</h3>
+          <p>Análisis zona a zona: turismo, residentes, competencia y perspectivas de crecimiento.</p>
+          <div class="blog-meta-row"><span>18 abril 2025</span><span>10 min lectura</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BLOG POST ===== -->
+<div id="view-blogpost" style="display:none">
+  <div class="container" style="max-width:780px;padding:40px 24px 80px">
+    <button class="btn-back" onclick="showView('blog')"><i data-lucide="arrow-left"></i> Volver a guías</button>
+    <div id="blogPostContent" class="blog-post-content"></div>
+  </div>
+</div>
+
+<!-- ===== BIZMATE ===== -->
+<div id="bizmatePanel" class="bizmate-panel" style="display:none">
+  <div class="bizmate-header">
+    <div class="bizmate-title">
+      <div class="bizmate-avatar">BM</div>
+      <div>
+        <div class="bizmate-name">BizMate</div>
+        <div class="bizmate-status">Asesor especializado · En línea</div>
+      </div>
+    </div>
+    <button class="bizmate-close" onclick="BizMate.close()"><i data-lucide="x"></i></button>
+  </div>
+  <div class="bizmate-messages" id="bizmateMessages"></div>
+  <div class="bizmate-input-wrap">
+    <input class="bizmate-input" id="bizmateInput" type="text" placeholder="Escribe tu consulta..." onkeydown="handleBizmateKey(event)" />
+    <button class="bizmate-send" onclick="BizMate.sendMessage(document.getElementById('bizmateInput').value)">
+      <i data-lucide="send"></i>
+    </button>
+  </div>
+</div>
+
+<!-- ===== MODALS ===== -->
+
+<!-- Success -->
+<div class="modal-overlay" id="successModal" style="display:none">
+  <div class="modal">
+    <div class="modal-check"><i data-lucide="check-circle"></i></div>
+    <h2>Anuncio publicado</h2>
+    <p>Tu negocio ya está visible en FindBiz. Compártelo ahora para llegar a más compradores potenciales.</p>
+    <div id="modalShareButtons" class="share-buttons"></div>
+    <button class="btn-primary" style="width:100%;margin-top:8px" onclick="closeSuccessModal()">Ver mi anuncio</button>
+    <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showView('listings');closeSuccessModal()">Ver todos los negocios</button>
+  </div>
+</div>
+
+<!-- Auth -->
+<div class="modal-overlay" id="authModal" style="display:none">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()"><i data-lucide="x"></i></button>
+    <div class="auth-tabs">
+      <button class="auth-tab-btn active" data-tab="login" onclick="switchAuthTab('login')">Iniciar sesión</button>
+      <button class="auth-tab-btn" data-tab="register" onclick="switchAuthTab('register')">Crear cuenta</button>
+    </div>
+    <div id="loginTab">
+      <form onsubmit="doLogin(event)">
+        <div class="form-group"><label>Correo electrónico</label><input type="email" id="loginEmail" placeholder="correo@ejemplo.com" required /></div>
+        <div class="form-group"><label>Contraseña</label><input type="password" id="loginPass" placeholder="••••••••" required /></div>
+        <div class="auth-error" id="loginError"></div>
+        <button type="submit" class="btn-primary" style="width:100%">Entrar</button>
+      </form>
+      <p class="modal-footer-text">¿Sin cuenta? <a href="#" onclick="switchAuthTab('register')">Regístrate gratis</a></p>
+      <p style="font-size:11px;color:var(--gray);margin-top:6px;text-align:center">Demo admin: admin@findbiz.es / admin123</p>
+    </div>
+    <div id="registerTab" style="display:none">
+      <form onsubmit="doRegister(event)">
+        <div class="form-group"><label>Nombre completo</label><input type="text" id="regName" placeholder="Tu nombre" required /></div>
+        <div class="form-group"><label>Correo electrónico</label><input type="email" id="regEmail" placeholder="correo@ejemplo.com" required /></div>
+        <div class="form-group"><label>Teléfono</label><input type="tel" id="regPhone" placeholder="600 000 000" /></div>
+        <div class="form-group"><label>Contraseña</label><input type="password" id="regPass" placeholder="Mínimo 6 caracteres" required minlength="6" /></div>
+        <div class="auth-error" id="registerError"></div>
+        <button type="submit" class="btn-primary" style="width:100%">Crear cuenta gratuita</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Featured payment -->
+<div class="modal-overlay" id="featuredModal" style="display:none">
+  <div class="modal">
+    <button class="modal-close" onclick="closeFeaturedModal()"><i data-lucide="x"></i></button>
+    <h2>Destacar anuncio</h2>
+    <p>Aparece en primer lugar y recibe hasta 5 veces más contactos de compradores cualificados.</p>
+    <div class="featured-price-block">
+      <div class="featured-price">29 € <span>/ mes</span></div>
+      <ul class="check-list">
+        <li>Primera posición en los resultados</li>
+        <li>Pin destacado en el mapa</li>
+        <li>Acceso a estadísticas avanzadas</li>
+        <li>Cancelación sin penalización</li>
+      </ul>
+    </div>
+    <div class="form-group"><label>Número de tarjeta</label><input type="text" placeholder="0000 0000 0000 0000" /></div>
+    <div class="form-row">
+      <div class="form-group"><label>Caducidad</label><input type="text" placeholder="MM/AA" /></div>
+      <div class="form-group"><label>CVV</label><input type="text" placeholder="000" /></div>
+    </div>
+    <button class="btn-primary btn-lg" style="width:100%" onclick="processFeaturedPayment()">Activar por 29 € / mes</button>
+    <p class="secure-note"><i data-lucide="lock"></i> Pago seguro con cifrado SSL. Cancela en cualquier momento.</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script src="auth.js"></script>
+<script src="bizmate.js"></script>
+<script src="dashboard.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
