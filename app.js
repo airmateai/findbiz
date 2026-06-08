@@ -1,11 +1,77 @@
 // ===== DATA =====
 const LISTINGS = [
-  { id:1, title:'Bar-cafetería en el centro de Santa Cruz', category:'Hostelería', zone:'Santa Cruz', price:45000, rent:1200, metros:90, revenue:180000, desc:'Bar-cafetería en pleno centro de Santa Cruz con más de 15 años de actividad. Clientela fija y consolidada, terraza con 8 mesas, cocina totalmente equipada. Motivo del traspaso: jubilación del propietario. Se incluye todo el personal y equipamiento.', featured:true, verified:true, owner:'José Manuel García', phone:'600 123 456', date:'2025-06-01', lat:28.4636, lng:-16.2518, views:187, contacts:14 },
-  { id:2, title:'Peluquería mixta en Playa de las Américas', category:'Belleza y Estética', zone:'Playa de las Américas', price:28000, rent:850, metros:55, revenue:95000, desc:'Peluquería mixta con 8 años de trayectoria en zona turística de alta demanda. 4 sillas de trabajo, lavacabezas y mobiliario completo. Zona de uñas incluida. Equipo de dos trabajadoras con contrato en vigor.', featured:false, verified:true, owner:'María Fernández', phone:'622 456 789', date:'2025-05-28', lat:28.0553, lng:-16.7145, views:94, contacts:6 },
-  { id:3, title:'Restaurante italiano en Puerto de la Cruz', category:'Hostelería', zone:'Puerto de la Cruz', price:85000, rent:2100, metros:160, revenue:320000, desc:'Restaurante italiano de referencia en Puerto de la Cruz con capacidad para 70 comensales. Horno de leña profesional y cocina equipada de alta gama. Situado en zona peatonal con alta afluencia turística todo el año.', featured:true, verified:true, owner:'Roberto Lanzaro', phone:'634 789 012', date:'2025-05-25', lat:28.4145, lng:-16.5497, views:312, contacts:27 },
-  { id:4, title:'Gimnasio boutique en La Laguna', category:'Deportes', zone:'La Laguna', price:55000, rent:1500, metros:200, revenue:140000, desc:'Gimnasio boutique especializado en CrossFit y entrenamiento funcional. 150 socios activos, equipamiento de último modelo y vestuarios completos. Excelente reputación en redes sociales con más de 2.000 seguidores.', featured:false, verified:true, owner:'Carlos Medina', phone:'618 234 567', date:'2025-05-20', lat:28.4850, lng:-16.3159, views:76, contacts:5 },
-  { id:5, title:'Farmacia en Adeje', category:'Salud', zone:'Adeje', price:220000, rent:2800, metros:120, revenue:580000, desc:'Farmacia en zona de alta densidad de población con crecimiento sostenido. Licencia en plena vigencia. Stock incluido. Facturación en constante aumento los últimos tres años. Oportunidad única en área de expansión urbanística.', featured:true, verified:false, owner:'Dra. Ana Suárez', phone:'650 345 678', date:'2025-05-18', lat:28.1227, lng:-16.7259, views:241, contacts:19 },
-  { id:6, title:'Tienda de souvenirs en Los Cristianos', category:'Comercio', zone:'Los Cristianos', price:18000, rent:950, metros:40, revenue:72000, desc:'Tienda de souvenirs en primera línea del paseo marítimo de Los Cristianos. Excelente ubicación con flujo turístico constante. Incluye todo el stock y mobiliario. Ideal para emprendedor con experiencia en atención al cliente.', featured:false, verified:false, owner:'Pedro Acosta', phone:'666 012 345', date:'2025-05-15', lat:28.0516, lng:-16.7151, views:58, contacts:4 },
+  {
+    id:1, title:'Bar-cafetería en el centro de Santa Cruz', category:'Hostelería', zone:'Santa Cruz',
+    price:45000, rent:1200, metros:90, revenue:180000,
+    desc:'Bar-cafetería en pleno centro de Santa Cruz con más de 15 años de actividad. Clientela fija y consolidada, terraza con 8 mesas, cocina totalmente equipada. Motivo del traspaso: jubilación del propietario. Se incluye todo el personal y equipamiento.',
+    featured:true, verified:true, owner:'José Manuel García', phone:'600 123 456', date:'2025-06-01',
+    lat:28.4636, lng:-16.2518, views:187, contacts:14,
+    photos:[
+      'https://images.unsplash.com/photo-1514190051997-0f6f39ca5cde?w=800&q=80',
+      'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=800&q=80',
+      'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',
+    ]
+  },
+  {
+    id:2, title:'Peluquería mixta en Playa de las Américas', category:'Belleza y Estética', zone:'Playa de las Américas',
+    price:28000, rent:850, metros:55, revenue:95000,
+    desc:'Peluquería mixta con 8 años de trayectoria en zona turística de alta demanda. 4 sillas de trabajo, lavacabezas y mobiliario completo. Zona de uñas incluida. Equipo de dos trabajadoras con contrato en vigor.',
+    featured:false, verified:true, owner:'María Fernández', phone:'622 456 789', date:'2025-05-28',
+    lat:28.0553, lng:-16.7145, views:94, contacts:6,
+    photos:[
+      'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80',
+      'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80',
+    ]
+  },
+  {
+    id:3, title:'Restaurante italiano en Puerto de la Cruz', category:'Hostelería', zone:'Puerto de la Cruz',
+    price:85000, rent:2100, metros:160, revenue:320000,
+    desc:'Restaurante italiano de referencia en Puerto de la Cruz con capacidad para 70 comensales. Horno de leña profesional y cocina equipada de alta gama. Situado en zona peatonal con alta afluencia turística todo el año.',
+    featured:true, verified:true, owner:'Roberto Lanzaro', phone:'634 789 012', date:'2025-05-25',
+    lat:28.4145, lng:-16.5497, views:312, contacts:27,
+    photos:[
+      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80',
+      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
+      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80',
+    ]
+  },
+  {
+    id:4, title:'Gimnasio boutique en La Laguna', category:'Deportes', zone:'La Laguna',
+    price:55000, rent:1500, metros:200, revenue:140000,
+    desc:'Gimnasio boutique especializado en CrossFit y entrenamiento funcional. 150 socios activos, equipamiento de último modelo y vestuarios completos. Excelente reputación en redes sociales con más de 2.000 seguidores.',
+    featured:false, verified:true, owner:'Carlos Medina', phone:'618 234 567', date:'2025-05-20',
+    lat:28.4850, lng:-16.3159, views:76, contacts:5,
+    photos:[
+      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80',
+      'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80',
+      'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=800&q=80',
+    ]
+  },
+  {
+    id:5, title:'Farmacia en Adeje', category:'Salud', zone:'Adeje',
+    price:220000, rent:2800, metros:120, revenue:580000,
+    desc:'Farmacia en zona de alta densidad de población con crecimiento sostenido. Licencia en plena vigencia. Stock incluido. Facturación en constante aumento los últimos tres años. Oportunidad única en área de expansión urbanística.',
+    featured:true, verified:false, owner:'Dra. Ana Suárez', phone:'650 345 678', date:'2025-05-18',
+    lat:28.1227, lng:-16.7259, views:241, contacts:19,
+    photos:[
+      'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
+      'https://images.unsplash.com/photo-1576602976047-174e57a47881?w=800&q=80',
+      'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&q=80',
+    ]
+  },
+  {
+    id:6, title:'Tienda de souvenirs en Los Cristianos', category:'Comercio', zone:'Los Cristianos',
+    price:18000, rent:950, metros:40, revenue:72000,
+    desc:'Tienda de souvenirs en primera línea del paseo marítimo de Los Cristianos. Excelente ubicación con flujo turístico constante. Incluye todo el stock y mobiliario. Ideal para emprendedor con experiencia en atención al cliente.',
+    featured:false, verified:false, owner:'Pedro Acosta', phone:'666 012 345', date:'2025-05-15',
+    lat:28.0516, lng:-16.7151, views:58, contacts:4,
+    photos:[
+      'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80',
+      'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80',
+      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+    ]
+  },
 ];
 
 const ALL_VIEWS = ['home','listings','create','detail','dashboard','favorites','alerts','admin','calculator','blog','blogpost'];
@@ -47,14 +113,15 @@ function renderCard(listing) {
   card.onmouseenter = () => highlightMapMarker(listing.id, true);
   card.onmouseleave = () => highlightMapMarker(listing.id, false);
   const fav = isFavorite(listing.id);
+  const photo = listing.photos && listing.photos[0];
   card.innerHTML = `
-    <div class="card-image">
+    <div class="card-image" style="${photo ? `background-image:url('${photo}');background-size:cover;background-position:center` : ''}">
       ${listing.featured ? '<div class="card-featured-badge">Destacado</div>' : ''}
       ${listing.verified ? '<div class="card-verified-badge">Verificado</div>' : ''}
       <button class="card-fav-btn ${fav ? 'active' : ''}" data-fav="${listing.id}" onclick="event.stopPropagation();toggleFavorite(${listing.id})">
-        <i data-lucide="${fav ? 'heart' : 'heart'}"></i>
+        <i data-lucide="heart"></i>
       </button>
-      <div class="card-category-icon"><i data-lucide="${categoryIcon(listing.category)}"></i></div>
+      ${!photo ? `<div class="card-category-icon"><i data-lucide="${categoryIcon(listing.category)}"></i></div>` : ''}
       <div class="card-cat-label">${listing.category}</div>
     </div>
     <div class="card-body">
@@ -102,7 +169,14 @@ function showDetail(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const gallery = document.getElementById('detailGallery');
-  gallery.innerHTML = `<i data-lucide="${categoryIcon(l.category)}"></i>`;
+  if (l.photos && l.photos.length) {
+    gallery.innerHTML = `
+      <div class="gallery-main" id="galleryMain" style="background-image:url('${l.photos[0]}')"></div>
+      ${l.photos.length > 1 ? `<div class="gallery-thumbs">${l.photos.map((p,i) => `<div class="gallery-thumb ${i===0?'active':''}" style="background-image:url('${p}')" onclick="setGalleryPhoto('${p}',this)"></div>`).join('')}</div>` : ''}
+    `;
+  } else {
+    gallery.innerHTML = `<i data-lucide="${categoryIcon(l.category)}"></i>`;
+  }
 
   const fav = isFavorite(l.id);
   document.getElementById('detailInfo').innerHTML = `
@@ -147,6 +221,12 @@ function showDetail(id) {
   renderRatings(l);
   renderShareButtons('shareButtons', l.title, l.price);
   lucide.createIcons();
+}
+
+function setGalleryPhoto(url, thumb) {
+  document.getElementById('galleryMain').style.backgroundImage = `url('${url}')`;
+  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
 }
 
 // ===== RATINGS =====
